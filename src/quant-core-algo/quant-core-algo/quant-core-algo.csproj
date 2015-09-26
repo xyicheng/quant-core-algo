@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VectorExtension.cs" />
+    <Compile Include="ArrayCheck.cs" />
+    <Compile Include="TridiagonalMatrix.cs" />
     <Compile Include="VectorOp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorMapping.cs" />

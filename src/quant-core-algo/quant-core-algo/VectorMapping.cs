@@ -5,46 +5,66 @@ namespace quant_core_algo
     public static partial class Vector
     {
         #region private method
-        private static unsafe void SetValue(double* p_x, int size, double value)
+        private static unsafe void FillValue(double* x, int size, double value)
         {
             for (int i = 0; i < size; i++)
-                p_x[i] = value;
+                x[i] = value;
         }
-        private static unsafe void ApplyExp(double* p_x, int size)
+        private static unsafe void FillValue(double* x, int size, double* value)
         {
             for (int i = 0; i < size; i++)
-                p_x[i] = Math.Exp(p_x[i]);
+                x[i] = value[i];
+        }
+        private static unsafe void ApplyExp(double* x, int size)
+        {
+            for (int i = 0; i < size; i++)
+                x[i] = Math.Exp(x[i]);
         }
         #endregion
 
-        public static unsafe void SetValue(ref double[] x, double val)
+        public static unsafe void FillValue(this double[] x, double val)
         {
             fixed (double* p_x = &x[0])
             {
-                SetValue(p_x, x.Length, val);
+                FillValue(p_x, x.Length, val);
             }
         }
-        public static unsafe void SetValue(ref double[,] x, double val)
+        public static unsafe void FillValue(this double[,] x, double val)
         {
             fixed (double* p_x = &x[0, 0])
             {
-                SetValue(p_x, x.Length, val);
+                FillValue(p_x, x.Length, val);
             }
         }
 
-        public static unsafe void ApplyExp(ref double[] x)
+        public static unsafe void FillValue(this double[] x, double[] val)
+        {
+            int n = x.Length;
+            ArrayCheck.CheckSize(n, x, val);
+            fixed (double* px = &x[0], pv = &val[0])
+            {
+                FillValue(px, n, pv);
+            }
+        }
+        public static unsafe void FillValue(this double[,] x, double[,] val)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static unsafe void ApplyExp(this double[] x)
         {
             fixed (double* p_x = &x[0])
             {
                 ApplyExp(p_x, x.Length);
             }
         }
-        public static unsafe void ApplyExp(ref double[,] x)
+        public static unsafe void ApplyExp(this double[,] x)
         {
             fixed (double* p_x = &x[0, 0])
             {
                 ApplyExp(p_x, x.Length);
             }
         }
+
     }
 }
