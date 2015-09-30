@@ -40,7 +40,7 @@ namespace quant_core_algo
         public static unsafe void FillValue(this double[] x, double[] val)
         {
             int n = x.Length;
-            ArrayCheck.CheckSize(n, x, val);
+            ArrayCheck.EqualSize(n, x, val);
             fixed (double* px = &x[0], pv = &val[0])
             {
                 FillValue(px, n, pv);

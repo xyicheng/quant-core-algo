@@ -87,7 +87,7 @@ namespace quant_core_algo
         public static unsafe void AxPlusBy(this double[] x, double a, double[] y, double b)
         {
             int n = x.Length;
-            ArrayCheck.CheckSize(n, x, y);
+            ArrayCheck.EqualSize(n, x, y);
             fixed (double* p_x = &x[0], p_y = &y[0])
             {
                 AxPlusBy(p_x, a, p_y, b, n);
