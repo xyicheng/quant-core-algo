@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayCheck.cs" />
+    <Compile Include="IPdeStepSolver.cs" />
     <Compile Include="TridiagonalMatrix.cs" />
     <Compile Include="TridiagOperator1D.cs" />
     <Compile Include="VectorOp.cs" />

@@ -27,6 +27,13 @@ namespace quant_core_algo
                 x[i] = a * x[i] + b * y[i];
             }
         }
+        private static unsafe void AxPlusB(double* x, double a, double b, int size)
+        {
+            for (int i = 0; i < size; i++)
+            {
+                x[i] = a * x[i] + b;
+            }
+        }
         #endregion
 
         public static unsafe void Add(this double[] x, double[] y)
@@ -96,13 +103,41 @@ namespace quant_core_algo
         public static unsafe void AxPlusBy(this double[,] x, double a, double[,] y, double b)
         {
             if (x.GetLength(0) != y.GetLength(0) ||
-                x.GetLength(1) != y.GetLength(1)) 
+                x.GetLength(1) != y.GetLength(1))
                 throw new Exception("Incompatible size");
 
             fixed (double* p_x = &x[0, 0], p_y = &y[0, 0])
             {
                 AxPlusBy(p_x, a, p_y, b, x.Length);
             }
+        }
+
+        public static unsafe void AxPlusB(this double[] x, double a, double b)
+        {
+            fixed (double* p_x = &x[0])
+            {
+                AxPlusB(p_x, a, b, x.Length);
+            }
+        }
+        public static unsafe void AxPlusB(this double[,] x, double a, double b)
+        {
+            fixed (double* p_x = &x[0, 0])
+            {
+                AxPlusB(p_x, a, b, x.Length);
+            }
+        }
+
+        public static double[] Copy(this double[] x)
+        {
+            var result = new double[x.Length];
+            result.FillValue(x);
+            return result;
+        }
+        public static double[,] Copy(this double[,] x)
+        {
+            var result = new double[x.GetLength(0), x.GetLength(1)];
+            result.FillValue(x);
+            return result;
         }
     }
 }
